@@ -12,8 +12,7 @@ import java.io.IOException;
 import java.util.*;
 
 public class AnagramLocator {
-    // Constant for minimum number of anagrams to form a group
-    private static final int MIN_ANAGRAM_GROUP_SIZE = 2;
+ 
 /************************************************************************************************/
 /* Method: readWordsFromFile
 /* Purpose: Reads words from a file and returns a list of words.
@@ -28,6 +27,7 @@ public class AnagramLocator {
         List<String> wordsList = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String line;
+            // Read each line from the file and add it to the list after trimming and converting to lowercase
             while ((line = br.readLine()) != null) {
                 wordsList.add(line.trim().toLowerCase());
             }
@@ -43,11 +43,14 @@ public class AnagramLocator {
 /*   Map<String, List<String>>: A map where keys are sorted anagrams and values are lists of anagrams.
 /************************************************************************************************/
     public static Map<String, List<String>> findAnagramGroups(List<String> wordsList) {
+        // Map to store anagram groups where keys are sorted anagrams and values are lists of anagrams
         Map<String, List<String>> anagramGroups = new HashMap<>();
         for (String word : wordsList) {
+            // Convert word to char array, sort it, and create a string from the sorted characters
             char[] charArray = word.toCharArray();
             Arrays.sort(charArray);
             String sortedWord = new String(charArray);
+            // Check if the sorted word is already a key in the map, if not, add a new key-value pair
             if (!anagramGroups.containsKey(sortedWord)) {
                 anagramGroups.put(sortedWord, new ArrayList<>());
             }
@@ -64,6 +67,7 @@ public class AnagramLocator {
 /************************************************************************************************/
     public static void printAnagramGroups(Map<String, List<String>> anagramGroups) {
         for (List<String> anagramGroup : anagramGroups.values()) {
+         // Iterate through the map values (lists of anagrams) and print groups with more than one word  
             if (anagramGroup.size() > 1) {
                 System.out.println("Original word: " + anagramGroup.get(0));
                 System.out.println("Anagrams: " + String.join(", ", anagramGroup.subList(1, anagramGroup.size())));
@@ -79,6 +83,7 @@ public class AnagramLocator {
 /* Returns: None
 /************************************************************************************************/
     public static void main(String[] args) {
+         // Check if a file name is provided as a command-line argument
         if (args.length < 1) {
             System.out.println("Usage: java AnagramDetector <filename>");
             return;
@@ -86,8 +91,11 @@ public class AnagramLocator {
 
         String fileName = args[0];
         try {
+             // Read words from the file
             List<String> wordsList = readWordsFromFile(fileName);
+            // Find anagram groups from the list of words
             Map<String, List<String>> anagramGroups = findAnagramGroups(wordsList);
+            // Print the anagram groups
             printAnagramGroups(anagramGroups);
         } catch (IOException e) {
             System.out.println("Error reading the file: " + e.getMessage());
