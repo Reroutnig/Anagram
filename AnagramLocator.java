@@ -11,7 +11,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
-public class Anagram {
+public class AnagramLocator {
+    // Constant for minimum number of anagrams to form a group
+    private static final int MIN_ANAGRAM_GROUP_SIZE = 2;
 /************************************************************************************************/
 /* Method: readWordsFromFile
 /* Purpose: Reads words from a file and returns a list of words.
